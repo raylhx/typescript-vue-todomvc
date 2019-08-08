@@ -1,4 +1,3 @@
-
 var path = require('path')
 var webpack = require('webpack')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
@@ -11,38 +10,37 @@ module.exports = {
     filename: 'build.js'
   },
   module: {
-    rules: [
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader',
-        options: {
-          loaders: {
-            'scss': 'vue-style-loader!css-loader!sass-loader',
-            'sass': 'vue-style-loader!css-loader!sass-loader?indentedSyntax',
-          }
-        }
-      },
-      {
-        test: /\.tsx?$/,
-        loader: 'ts-loader',
-        exclude: /node_modules/,
-        options: {
-          appendTsSuffixTo: [/\.vue$/],
-        }
-      },
-      {
-        test: /\.(png|jpg|gif|svg)$/,
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]?[hash]'
+    rules: [{
+      test: /\.vue$/,
+      loader: 'vue-loader',
+      options: {
+        loaders: {
+          scss: 'vue-style-loader!css-loader!sass-loader',
+          sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax'
         }
       }
+    },
+    {
+      test: /\.tsx?$/,
+      loader: 'ts-loader',
+      exclude: /node_modules/,
+      options: {
+        appendTsSuffixTo: [/\.vue$/]
+      }
+    },
+    {
+      test: /\.(png|jpg|gif|svg)$/,
+      loader: 'file-loader',
+      options: {
+        name: '[name].[ext]?[hash]'
+      }
+    }
     ]
   },
   resolve: {
     extensions: ['.ts', '.js', '.vue', '.json'],
     alias: {
-      'vue$': 'vue/dist/vue.esm.js'
+      vue$: 'vue/dist/vue.esm.js'
     }
   },
   devServer: {
@@ -53,13 +51,12 @@ module.exports = {
     hints: false
   },
   devtool: '#eval-source-map',
-  plugins: [
-    new VueLoaderPlugin()
-  ]
+  plugins: [new VueLoaderPlugin()]
 }
 
 if (process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#source-map'
+  // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
       'process.env': {
